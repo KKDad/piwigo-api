@@ -5,7 +5,7 @@ require_relative 'albums'
 require_relative 'image_uploader'
 
 module Piwigo
-  # Syncronize a folder with Piwigo
+  # Synchronize a folder with Piwigo
   #    - Album name will be the same as the folder name
   #    - Will be created as a top-level folder unless specified
   class FolderSync
@@ -27,11 +27,11 @@ module Piwigo
       FolderSync.new(session, logger: logger).synchronize(directory)
     end
 
-    # Syncronize a folder with Piwigo
+    # Synchronize a folder with Piwigo
     #
-    # @param [String] directory - directory to  syncronize.
+    # @param [String] directory - directory to  synchronize.
     def synchronize(directory)
-      if ['originals', '.picasaoriginals'].include? File.basename(directory.downcase)
+      if %w[originals .picasaoriginals].include? File.basename(directory.downcase)
         @logger.info "Skipping special directory: #{directory}"
         return
       else
@@ -75,7 +75,7 @@ module Piwigo
 
     def process_file(directory_entry)
       # Only attempt to import images
-      return unless ['.jpg', '.png', '.gif'].include? File.extname(directory_entry).downcase
+      return unless %w[.jpg .png .gif].include? File.extname(directory_entry).downcase
 
       @logger.info "Processing Image: '#{directory_entry}' in album '#{@current_album}'"
       image = Piwigo::Images.lookup(@session, directory_entry)

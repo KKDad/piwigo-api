@@ -28,7 +28,7 @@ module Piwigo
     # Gets information about the current session. Also provides a token useable with admin methods.
     # @return [<Type>] <description>
     def status
-      logger ||= Logger.new(STDOUT)
+      logger ||= Logger.new($stdout)
 
       begin
         # Create the HTTP objects
@@ -60,11 +60,11 @@ module Piwigo
     def logout(logger: nil)
       raise 'This session has already been logged out' if uri.nil?
 
-      logger ||= Logger.new(STDOUT)
+      logger ||= Logger.new($stdout)
 
       # Create the HTTP objects
       http = Net::HTTP.new(uri.host, uri.port)
-      request = Net::HTTP::Get.new(uri.request_uri + '&method=pwg.session.logout')
+      request = Net::HTTP::Get.new("#{uri.request_uri}&method=pwg.session.logout")
       request['Cookie'] = id
 
       # Send the request
@@ -84,11 +84,14 @@ module Piwigo
       raise 'host should not be nil' if host.nil?
       raise 'username should not be nil' if username.nil?
 
-      logger ||= Logger.new(STDOUT)
+      logger ||= Logger.new($stdout)
 
       begin
-        uri = https ? URI::HTTPS.build(host: host, path: '/ws.php', query: 'format=json') :
-                      URI::HTTP.build(host: host, path: '/ws.php', query: 'format=json')
+        uri = if https
+                URI::HTTPS.build(host: host, path: '/ws.php', query: 'format=json')
+              else
+                URI::HTTP.build(host: host, path: '/ws.php', query: 'format=json')
+              end
 
         # Create the HTTP objects
         http = Net::HTTP.new(uri.host, uri.port)

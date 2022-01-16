@@ -6,12 +6,12 @@ require 'logger'
 require 'digest'
 require_relative 'image_uploader'
 
-# Piwigo organizes images by albums. The album tree has unlimted depth and each photo can belong to multiple albums. The Piwigo API
+# Piwigo organizes images by albums. The album tree has unlimited depth and each photo can belong to multiple albums. The Piwigo API
 # refers to a Album as a Category.
 module Piwigo
   class Images
     class Image
-      # @return [Number] Unique ID idenifying this ie
+      # @return [Number] Unique ID identifying this ie
       attr_accessor :id
 
       # @return [Number] Width of the image in pixels
@@ -53,7 +53,7 @@ module Piwigo
       def initialize(hash: nil)
         hash&.each do |key, value|
           # Bug: If the encoding is Windows-1252, then Piwigo will blowup when creating the album
-          value = value.encode('UTF-8', 'Windows-1252') if value.class == String && value.encoding.to_s == 'Windows-1252'
+          value = value.encode('UTF-8', 'Windows-1252') if value.instance_of?(String) && value.encoding.to_s == 'Windows-1252'
           send("#{key}=", value)
         end
       end
@@ -75,7 +75,7 @@ module Piwigo
       def initialize(hash: nil)
         hash&.each do |key, value|
           # Bug: If the encoding is Windows-1252, then Piwigo will blowup when creating the album
-          value = value.encode('UTF-8', 'Windows-1252') if value.class == String && value.encoding.to_s == 'Windows-1252'
+          value = value.encode('UTF-8', 'Windows-1252') if value.instance_of?(String) && value.encoding.to_s == 'Windows-1252'
           send("#{key}=", value)
         end
       end

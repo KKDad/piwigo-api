@@ -7,7 +7,7 @@ require 'base64'
 
 # Add a photo.
 #
-# To avoid limitations on HTTP POST maximum size, the piwigo requires the image to be splitted into several calls to pwg.images.addChunk 
+# To avoid limitations on HTTP POST maximum size, the piwigo requires the image to be splitted into several calls to pwg.images.addChunk
 # and then a single call to pwg.images.add.
 #
 # Reference: https://piwigo.org/doc/doku.php?id=dev:webapi:pwg.images.add
@@ -17,8 +17,6 @@ module Piwigo
       MEGABYTE = 1024 * 1024
 
       # Create a new ImageUploader
-      #
-      # @param [Session] session - session to a piwigo instance
       def initialize(logger: nil)
         @logger = logger || Logger.new(STDOUT)
       end
@@ -126,10 +124,11 @@ module Piwigo
         request['Cookie'] = [@session.id]
 
         response = http.request(request)
-        if response.code == '500'
+        case response.code
+        when '500'
           @logger.error "Image Add failed: #{response.message}"
           false
-        elsif response.code == '200'
+        when '200'
           data = JSON.parse(response.body)
           p data
           @logger.info 'Image Add succeeded.'
@@ -144,7 +143,7 @@ module Piwigo
 
       def sniff_attributes(filename, album: nil)
         attributes = {}
-        begin         
+        begin
           info = EXIFR::JPEG.new(filename)
           @logger.info "--> GPS: #{info.gps.latitude}, #{info.gps.longitude}" unless info.gps.nil?
           exif = info.exif.first.to_hash if info.exif?

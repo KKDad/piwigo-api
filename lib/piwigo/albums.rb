@@ -3,8 +3,8 @@ require 'uri'
 require 'json'
 require 'logger'
 
-# Piwigo organizes images by albums. The album tree has unlimted depth and each photo can belong to multiple albums. The Piwigo API
-# refers to a Album as a Category.
+# Piwigo organizes images by albums. The album tree has unlimited depth and each photo can belong to multiple albums.
+# The Piwigo API refers to a Album as a Category.
 module Piwigo
   class Albums
     class Album
@@ -59,7 +59,7 @@ module Piwigo
       def initialize(hash: nil)
         hash&.each do |key, value|
           # Bug: If the encoding is Windows-1252, then Piwigo will blowup when creating the album
-          value = value.encode('UTF-8', 'Windows-1252') if value.class == String && value.encoding.to_s == 'Windows-1252'
+          value = value.encode('UTF-8', 'Windows-1252') if value.instance_of?(String) && value.encoding.to_s == 'Windows-1252'
           send("#{key}=", value)
         end
       end
@@ -73,10 +73,10 @@ module Piwigo
     #
     # @param [Session] session - Session
     # @param [Number] album_id - Album to fetch, Optional
-    # @param [Boolean] recursive - Include subalbums, Optional
+    # @param [Boolean] recursive - Include sub albums, Optional
     # @param [Boolean] public - Only include public albums, Optional
     # @param [Boolean] fullname - ???, Optional
-    # @param [String] thumbnail_size - Size of thumbname to return, One of: square, thumb, 2small, xsmall, small, medium, large, xlarge, xxlarge. Optional
+    # @param [String] thumbnail_size - Size of thumbnail to return, One of: square, thumb, 2small, xsmall, small, medium, large, xlarge, xxlarge. Optional
     # @param [Logger] logger logger to output debug messages to (Optional)
     #
     # @return [Array<Album>] All albums that match the criteria, or nil there were no matches
