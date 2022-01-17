@@ -78,9 +78,10 @@ module Piwigo
     # @param [string] piwigo - host to connect to. Can be fqdn or ip.
     # @param [string] username - user to connect as
     # @param [string] password - password for user
-    # @param [boolean] https - Use HTTPS?
+    # @param [boolean] https -
+    # @param [port] Optional port. If not specified, then http connections will use 80, https 443
     # @param [Logger] logger logger to output debug messages to (Optional)
-    def self.login(host, username, password, https: true, logger: nil)
+    def self.login(host, username, password, https: true, port: nil, logger: nil)
       raise 'host should not be nil' if host.nil?
       raise 'username should not be nil' if username.nil?
 
@@ -88,9 +89,9 @@ module Piwigo
 
       begin
         uri = if https
-                URI::HTTPS.build(host: host, path: '/ws.php', query: 'format=json')
+                URI::HTTPS.build(host: host, port: port.nil? ? 443 : port, path: '/ws.php', query: 'format=json')
               else
-                URI::HTTP.build(host: host, path: '/ws.php', query: 'format=json')
+                URI::HTTP.build(host: host, port: port.nil? ? 80 : port, path: '/ws.php', query: 'format=json')
               end
 
         # Create the HTTP objects
@@ -108,7 +109,7 @@ module Piwigo
 
         if response.code == '200'
           logger.info "Login succeeded: #{response.body}"
-          pwg_id = response.response['set-cookie'].split(';').select { |i| i.strip.start_with? 'pwg_id' }.first
+          pwg_id = response.response['set-cookie'].split(/[;,\,]/).select { |i| i.strip.start_with? 'pwg_id' }.first
           return Session.new(pwg_id, uri)
         else
           logger.error "Login failed: #{response.body}"

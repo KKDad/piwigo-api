@@ -131,11 +131,12 @@ module Piwigo
     #
     # @param [<Type>] session
     # @param [<Type>] filename of the file to upload
-    # @param [<Type>] name of the image
+    # @param [Album] album to place tge image in
+    # @param [String] name of the image
     #
     # @return [Boolean] True if successful
-    def self.upload(session, file, name)
-      ImageUploader.new(session, file, name).upload
+    def self.upload(session, file, album, name)
+      ImageUploader.new.upload(session, file, name, album: album)
     end
 
     # Checks existence of images

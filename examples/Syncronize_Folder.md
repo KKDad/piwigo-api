@@ -1,6 +1,6 @@
-## Syncronize a Directory with Piwigo
+## Synchronize a Directory with Piwigo
 
-To syncronize a folder-tree of im ages with Piwigo:
+To synchronize a folder-tree of im ages with Piwigo:
 
 ```ruby
 require 'piwigo/session'
@@ -14,7 +14,7 @@ unless session.nil?
 end
 ```
 
-Call the script with the directory to syncronize. Eg:
+Call the script with the directory to synchronize. Eg:
 
 ```ruby
 ruby main.rb //DISKSTATION/photos/

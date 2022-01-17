@@ -9,9 +9,13 @@ require 'piwigo/images'
 
 session = Piwigo::Session.login('10.100.230.78', 'Adrian', 'mypassword', https: false)
 unless session.nil?
+  album = Piwigo::Albums::Album.new
+  album.name = "Recipes"
+  album = Piwigo::Albums.add(session, album)
+
   filename = 'C:\photos\apple-pie-bars-articleLarge.jpg'
-  if Piwigo::Images.Lookup(session, filename).nil?
-    Piwigo::Images.Upload(session, filename, 'apple-pie-bars')
+  if Piwigo::Images.lookup(session, filename).nil?
+    Piwigo::Images.upload(session, filename, album, 'apple-pie-bars')
   end
 end
 ```

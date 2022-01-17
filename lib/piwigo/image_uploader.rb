@@ -4,6 +4,7 @@ require 'json'
 require 'logger'
 require 'digest'
 require 'base64'
+require 'exifr/jpeg'
 
 # Add a photo.
 #
@@ -28,7 +29,7 @@ module Piwigo
       # @param [<Type>] name of the image
       #
       # @return [Boolean] True if successful
-      def upload(session, filename, name, album: null)
+      def upload(session, filename, name, album: nil)
         @session = session
         raise 'Invalid session' if @session.uri.nil?
 
@@ -134,6 +135,7 @@ module Piwigo
           @logger.info 'Image Add succeeded.'
           true
         else
+          @logger.error "Unexpected error: #{response.code}"
           false
         end
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e

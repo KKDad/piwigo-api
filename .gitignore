@@ -9,3 +9,4 @@
 *.gem
 main.rb
 settings.json
+/.idea/

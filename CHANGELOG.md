@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+0.6.0 - 2022-01-17
+- Added support for specifying the port to connect to Piwigo on, and added an example
+- Fixed a regression bug from updating EXITF gem
+- Additional spelling fixes
+
 0.5.10 - 2022-01-16
 - Update Gemfile dependencies
 - Code and documentation cleanups
@@ -24,8 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix another encoding issue when synchronizing folder with accented characters.
 
 0.5.4 - 2019-11-26
-- Fix crash in sniff_attributes when the image dosn't contain a valid EXIF data
-- Fix parent albums when syncronizing a folder-tree of albums into Piwigo
+- Fix crash in sniff_attributes when the image doesn't contain a valid EXIF data
+- Fix parent albums when synchronizing a folder-tree of albums into Piwigo
 
 0.5.3 - 2019-11-25
 - Fixed to coverage reports
@@ -38,10 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 0.5.0 - 2019-11-23
 - Added a directory of example scripts
-- Added a folder-album syncronization methods
+- Added a folder-album synchronization methods
 
 0.4.0 - 2019-11-20
-- Add methods to check for the existance of a specific image and to upload images
+- Add methods to check for the existence of a specific image and to upload images
 
 0.3.1 - 2019-11-20
 - Add a codecov.yaml for coverage reports
